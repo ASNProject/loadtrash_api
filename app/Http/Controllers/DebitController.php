@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Debit;
+use App\Customer;
 use Illuminate\Support\Facades\Validator;
 
 class DebitController extends Controller
@@ -34,9 +35,9 @@ class DebitController extends Controller
         }
     }
 
-    public function index()
+     public function index()
     {
-        $debits = Debit::all();
+        $debits = Debit::with('customer')->get();
 
         $data = [
             'message' => 'Get method debit',
@@ -45,13 +46,20 @@ class DebitController extends Controller
 
         foreach ($debits as $debit) {
             $data['data'][] = [
+                'id' => $debit->id,
                 'id_user' => $debit->id_user,
                 'debit' => $debit->debit,
                 'status_withdrawal' => $debit->status_withdrawal,
                 'date_withdrawal' => $debit->date_withdrawal,
-                'status' => [
-                    'id_status' => $debit->status_withdrawal,
-                    'status' => ($debit->status_withdrawal == 'completed') ? 'completed' : 'pending'
+                'customer' => [
+                    'id_user' => $debit->customer->id_user,
+                    'name' => $debit->customer->name,
+                    'password' => $debit->customer->password,
+                    'address' => $debit->customer->address,
+                    'id_number' => $debit->customer->id_number,
+                    'registration' => $debit->customer->registration,
+                    'id_status' => $debit->customer->id_status,
+                    'id_load' => $debit->customer->id_load
                 ]
             ];
         }
@@ -61,24 +69,33 @@ class DebitController extends Controller
 
     public function detail($id_user)
     {
-        $debit = Debit::where('id_user', $id_user)->first();
+        $debits = Debit::where('id_user', $id_user)->with('customer')->get();
 
-        if ($debit) {
+        if ($debits->isNotEmpty()) {
             $data = [
                 'message' => 'Get method debit',
-                'data' => [
-                    [
-                        'id_user' => $debit->id_user,
-                        'debit' => $debit->debit,
-                        'status_withdrawal' => $debit->status_withdrawal,
-                        'date_withdrawal' => $debit->date_withdrawal,
-                        'status' => [
-                            'id_status' => $debit->status_withdrawal,
-                            'status' => ($debit->status_withdrawal == 'completed') ? 'completed' : 'pending'
-                        ]
-                    ]
-                ]
+                'data' => []
             ];
+
+            foreach ($debits as $debit) {
+                $data['data'][] = [
+                    'id' => $debit->id,
+                    'id_user' => $debit->id_user,
+                    'debit' => $debit->debit,
+                    'status_withdrawal' => $debit->status_withdrawal,
+                    'date_withdrawal' => $debit->date_withdrawal,
+                    'customer' => [
+                        'id_user' => $debit->customer->id_user,
+                        'name' => $debit->customer->name,
+                        'password' => $debit->customer->password,
+                        'address' => $debit->customer->address,
+                        'id_number' => $debit->customer->id_number,
+                        'registration' => $debit->customer->registration,
+                        'id_status' => $debit->customer->id_status,
+                        'id_load' => $debit->customer->id_load
+                    ]
+                ];
+            }
 
             return response()->json($data);
         } else {

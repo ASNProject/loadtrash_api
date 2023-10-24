@@ -57,30 +57,33 @@ class LoadController extends Controller
     }
 
     public function detail($code)
-    {
-        $load = Load::where('code', $code)->first();
+{
+    $loads = Load::where('code', $code)->get();
 
-        if ($load) {
-            $data = [
-                'message' => 'Get method load',
-                'data' => [
-                    [
-                        'code' => $load->code,
-                        'password' => $load->password,
-                        'value' => $load->value,
-                        'status' => [
-                            'id_status' => $load->status, // Adjust to your actual status field name
-                            'status' => $this->getStatusLabel($load->status) // Define the function to get the status label
-                        ]
-                    ]
+    if ($loads->isNotEmpty()) {
+        $data = [
+            'message' => 'Get method load',
+            'data' => []
+        ];
+
+        foreach ($loads as $load) {
+            $data['data'][] = [
+                'code' => $load->code,
+                'password' => $load->password,
+                'value' => $load->value,
+                'status' => [
+                    'id_status' => $load->status, // Sesuaikan dengan nama kolom status aktual Anda
+                    'status' => $this->getStatusLabel($load->status) // Tentukan fungsi untuk mendapatkan label status
                 ]
             ];
-
-            return response()->json($data);
-        } else {
-            return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
+
+        return response()->json($data);
+    } else {
+        return response()->json(['message' => 'Data tidak ditemukan'], 404);
     }
+}
+
 
     // Add a function to get the status label based on the status ID
     private function getStatusLabel($statusId)

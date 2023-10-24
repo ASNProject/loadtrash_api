@@ -87,10 +87,10 @@ class CustomerController extends Controller
                         'registration' => $customer->registration,
                         'id_status' => $customer->id_status,
                         'id_load' => $customer->id_load ?? '',
-                        'status' => [
-                            'id_status' => $customer->id_status,
-                            'status' => ($customer->id_status == 1) ? 'admin' : 'customer'
-                        ]
+                        // 'status' => [
+                        //     'id_status' => $customer->id_status,
+                        //     'status' => ($customer->id_status == 1) ? 'admin' : 'customer'
+                        // ]
                     ]
                 ]
             ];
