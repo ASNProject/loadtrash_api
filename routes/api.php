@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/customers', 'CustomerController@store');
 Route::get('/customers', 'CustomerController@index');
 Route::get('/customers/{id_user}', 'CustomerController@detail');
+Route::delete('/customers/{id_user}', 'CustomerController@destroy');
 
 Route::post('/credits', 'CreditController@store');
 Route::get('/credits', 'CreditController@index');
@@ -30,6 +31,8 @@ Route::get('/statuses/{id_status}', 'StatusController@detail');
 Route::post('/type-wastes', 'TypeWasteController@store');
 Route::get('/type-wastes', 'TypeWasteController@index');
 Route::get('/type-wastes/{id_type}', 'TypeWasteController@detail');
+Route::delete('/type-wastes/{id_type}', 'TypeWasteController@destroy');
+
 
 /*
 |--------------------------------------------------------------------------

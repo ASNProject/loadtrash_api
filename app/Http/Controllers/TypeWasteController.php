@@ -73,4 +73,18 @@ class TypeWasteController extends Controller
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
     }
+    public function destroy($id_type)
+    {
+        $typeWaste = TypeWaste::where('id_type', $id_type)->first();
+
+        if ($typeWaste) {
+            if ($typeWaste->delete()) {
+                return response()->json('TypeWaste berhasil dihapus');
+            } else {
+                return response()->json('TypeWaste gagal dihapus');
+            }
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+    }
 }

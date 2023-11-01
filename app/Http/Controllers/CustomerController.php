@@ -100,4 +100,19 @@ class CustomerController extends Controller
             return response()->json(['message' => 'Data tidak ditemukan'], 404);
         }
     }
+
+    public function destroy($id_user)
+    {
+        $customer = Customer::where('id_user', $id_user)->first();
+
+        if ($customer) {
+            if ($customer->delete()) {
+                return response()->json('Customer berhasil dihapus');
+            } else {
+                return response()->json('Customer gagal dihapus');
+            }
+        } else {
+            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        }
+    }
 }
