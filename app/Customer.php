@@ -21,5 +21,7 @@ class Customer extends Model
         'id_status',
         'id_load',
     ];
+    
+      protected $table = 'customers'; //
 
 }

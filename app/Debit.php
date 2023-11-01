@@ -17,4 +17,9 @@ class Debit extends Model
         'status_withdrawal',
         'date_withdrawal',
     ];
+    
+        public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'id_user', 'id_user');
+    }
 }

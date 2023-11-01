@@ -29,7 +29,7 @@ Route::get('/statuses/{id_status}', 'StatusController@detail');
 
 Route::post('/type-wastes', 'TypeWasteController@store');
 Route::get('/type-wastes', 'TypeWasteController@index');
-Route::get('/type_wastes/{id_type}', 'TypeWasteController@detail');
+Route::get('/type-wastes/{id_type}', 'TypeWasteController@detail');
 
 /*
 |--------------------------------------------------------------------------
